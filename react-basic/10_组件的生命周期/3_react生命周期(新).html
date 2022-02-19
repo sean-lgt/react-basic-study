@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>React生命周期--新版</title>
+</head>
+
+<body>
+  <!-- 准备好一个容器 -->
+  <div id="test"></div>
+  <!-- 引入react核心库 -->
+  <script type="text/javascript" src="../js/17.0.1/react.development.js"></script>
+  <!-- 引入react扩展库 用于支持react操作DOM -->
+  <script type="text/javascript" src="../js/17.0.1/react-dom.development.js"></script>
+  <!-- 引入babel 用于将ES5转为ES6 jsx转为js -->
+  <script type="text/javascript" src="../js/17.0.1/babel.min.js"></script>
+  <!-- 引入 prop-types 用于对组件标签属性进行限制 -->
+  <script type="text/javascript" src="../js/17.0.1/prop-types.js"></script>
+
+  <script type="text/babel">
+    //创建组件
+    class Count extends React.Component{
+      // 构造器
+      constructor(props){
+        console.log('🚀【count-constructor】');
+        super(props)
+      }
+      // 初始化状态
+      state = {
+        count:0,
+        childName:'子组件A'
+      }
+      //点击按钮+1
+      add = () =>{
+        //获取原状态
+        const {count} = this.state
+        this.setState({count:count+1})
+      }
+      // 销毁组件
+      death = ()=>{
+        ReactDOM.unmountComponentAtNode(document.getElementById('test'))
+      }
+
+      // 强制更新组件
+      force = ()=>{
+        this.forceUpdate()
+      }
+
+      // 更改子组件数据
+      updateChild = ()=>{
+        this.setState({
+          childName:this.state.childName == '子组件A'?'子组件B':'子组件A'
+        })
+      }
+      
+      // 从 props 得到派生状态
+      // 此方法适用于罕见案例，即 state 的值在任何时候都取决于 props，了解即可
+      // 不是给实例调用的，所以需要给静态 static 
+      // 需要返回state object，或者null
+      static getDerivedStateFromProps(props){
+        console.log('🚀【count-getDerivedStateFromProps】',props);
+        // return props
+        return null
+      }
+      // 在更新前获取快照
+      // 在最近一次渲染输出之前调用，能够让组件在发生更改之前从DOM中获取一些信息，会传递给 componentDidUpdate
+      // 有两个参数，prevProps 为之前的props,prevState为之前的state
+      getSnapshotBeforeUpdate(){
+        console.log('🚀【count-getSnapshotBeforeUpdate】');
+        return null
+      }
+
+      // 组件已经挂载在页面上
+      componentDidMount(){
+        console.log('🚀【count-componentDidMount】');
+      }
+
+      // 组件更新完毕
+      // 参数为 之前的props，之前的state ,getSnapshotBeforeUpdate 传递的快照值
+      componentDidUpdate(preProps,preState,snapshotValue){
+        console.log('🚀【count-componentDidUpdate】',preProps,preState,snapshotValue);
+      }
+
+      
+      // 组件即将被卸载
+      componentWillUnmount(){
+        console.log('🚀【count-componentWillUnmount】');
+      }
+
+      // render调用的时机：初始化渲染、状态更新之后
+      render(){
+        console.log('🚀【count-render】');
+        const {count} = this.state
+        return(
+          <div>
+            <h2>当前求和为：{count}</h2>
+            <button onClick={this.add}>点我+1</button>
+            <button onClick={this.death}>卸载组件</button>
+            <button onClick={this.force}>不更改任何状态中的数据，强制更新</button>
+          </div>
+        )
+      }
+    }
+
+    //渲染组件
+    ReactDOM.render(<Count count="111"/>,document.getElementById("test"))
+   </script>
+
+</body>
+
+</html>

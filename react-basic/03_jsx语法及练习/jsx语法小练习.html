@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>使用jsx做个小练习</title>
+  <style>
+   
+  </style>
+</head>
+<body>
+  <!-- 准备好一个容器 -->
+  <div id="test"></div>
+  <!-- 引入react核心库 -->
+  <script type="text/javascript" src="../js/react.development.js"></script>
+  <!-- 引入react扩展库 用于支持react操作DOM -->
+  <script type="text/javascript" src="../js/react-dom.development.js"></script>
+  <!-- 引入babel 用于将ES5转为ES6 jsx转为js -->
+  <script type="text/javascript" src="../js/babel.min.js"></script>
+
+  <!-- 此处一定要写babel 因为要写的是 jsx -->
+  <script type="text/babel">
+    //模拟数据
+    const data = ['Angular','React','Vue']
+    // 创建虚拟DOM
+   const  VDOM =(
+     <div>
+        <h1>前端JS框架列表</h1>
+        <ul>
+         {data.map((item,index)=>{
+           return <li key={index}>{item}</li>
+         })}
+        </ul>
+     </div>
+   )
+    // 2、渲染虚拟DOM到页面
+    ReactDOM.render(VDOM,document.getElementById('test'))
+  </script>
+
+
+</body>
+</html>

@@ -1,0 +1,64 @@
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>1_验证Diffing算法</title>
+  <style>
+
+  </style>
+</head>
+
+<body>
+  <!-- 准备好一个容器 -->
+  <div id="test"></div>
+  <!-- 引入react核心库 -->
+  <script type="text/javascript" src="../js/17.0.1/react.development.js"></script>
+  <!-- 引入react扩展库 用于支持react操作DOM -->
+  <script type="text/javascript" src="../js/17.0.1/react-dom.development.js"></script>
+  <!-- 引入babel 用于将ES5转为ES6 jsx转为js -->
+  <script type="text/javascript" src="../js/17.0.1/babel.min.js"></script>
+  <!-- 引入 prop-types 用于对组件标签属性进行限制 -->
+  <script type="text/javascript" src="../js/17.0.1/prop-types.js"></script>
+
+  <script type="text/babel">
+    //创建组件
+    class Time extends React.Component{
+     
+      state = {
+        date:new Date()
+      }
+      // 组件已经挂载在页面上
+      componentDidMount(){
+        setInterval(()=>{
+          this.setState({
+            date:new Date()
+          })
+        },1000)
+      }
+      
+      // 组件即将被卸载
+      componentWillUnmount(){
+      
+      }
+      // render调用的时机：初始化渲染、状态更新之后
+      render(){
+        return(
+          <div className="list" ref="list">
+           <h1>Hello</h1>
+           <input type="text"/>
+           <span>
+           现在是：{this.state.date.toTimeString()}
+            <input type="text"/>
+           </span>
+          </div>
+        )
+      }
+    }
+
+    //渲染组件
+    ReactDOM.render(<Time/>,document.getElementById("test"))
+   </script>
+
+</body>
+
+</html>

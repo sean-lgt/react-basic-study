@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>React 类式组件</title>
+  <style>
+   
+  </style>
+</head>
+<body>
+  <!-- 准备好一个容器 -->
+  <div id="test"></div>
+  <!-- 引入react核心库 -->
+  <script type="text/javascript" src="../js/react.development.js"></script>
+  <!-- 引入react扩展库 用于支持react操作DOM -->
+  <script type="text/javascript" src="../js/react-dom.development.js"></script>
+  <!-- 引入babel 用于将ES5转为ES6 jsx转为js -->
+  <script type="text/javascript" src="../js/babel.min.js"></script>
+
+  <!-- 此处一定要写babel 因为要写的是 jsx -->
+  <script type="text/babel">
+    // 1、创建类式组件
+    // 必须继承父类 React.Component
+    // 必须有 render 和 return
+    class MyComponent extends React.Component{
+      // render 放在类（MyComponent）的原型对象上，供实例使用
+      render(){
+        console.log('🚀【render中的this】',this); // MyComponent 组件实例
+        return <h2>我是用类式定义的组件（使用于【复杂组件】的定义）</h2>
+      }
+    }
+  
+    // 2、渲染虚拟DOM到页面
+    ReactDOM.render(<MyComponent/>,document.getElementById('test'))
+    /*
+      1.React 解析组件标签，找到 MyComponent 组件
+      2.发现组件是使用类定义的，随后 new 出来该类的实例，并且通过该实例调用到原型上的 reander实例
+      3.将 render 返回的虚拟 DOM 转为真实 DOM,最终呈现在页面上
+    */
+
+  </script>
+
+
+</body>
+</html>

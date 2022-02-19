@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>React生命周期--旧版</title>
+</head>
+<body>
+   <!-- 准备好一个容器 -->
+   <div id="test"></div>
+   <!-- 引入react核心库 -->
+   <script type="text/javascript" src="../js/react.development.js"></script>
+   <!-- 引入react扩展库 用于支持react操作DOM -->
+   <script type="text/javascript" src="../js/react-dom.development.js"></script>
+   <!-- 引入babel 用于将ES5转为ES6 jsx转为js -->
+   <script type="text/javascript" src="../js/babel.min.js"></script>
+   <!-- 引入 prop-types 用于对组件标签属性进行限制 -->
+   <script type="text/javascript" src="../js/prop-types.js"></script>
+ 
+   <script type="text/babel">
+    //创建组件
+    class Count extends React.Component{
+      // 构造器
+      constructor(props){
+        console.log('🚀【count-constructor】');
+        super(props)
+      }
+      // 初始化状态
+      state = {
+        count:0,
+        childName:'子组件A'
+      }
+      //点击按钮+1
+      add = () =>{
+        //获取原状态
+        const {count} = this.state
+        this.setState({count:count+1})
+      }
+      // 销毁组件
+      death = ()=>{
+        ReactDOM.unmountComponentAtNode(document.getElementById('test'))
+      }
+
+      // 强制更新组件
+      force = ()=>{
+        this.forceUpdate()
+      }
+
+      // 更改子组件数据
+      updateChild = ()=>{
+        this.setState({
+          childName:this.state.childName == '子组件A'?'子组件B':'子组件A'
+        })
+      }
+
+      // 组件将要挂载的钩子函数
+      componentWillMount(){
+        console.log('🚀【count-componentWillMount】');
+      }
+      // 组件已经挂载在页面上
+      componentDidMount(){
+        console.log('🚀【count-componentDidMount】');
+      }
+      // 组件是否需要更新--控制组件更新的阀门
+      shouldComponentUpdate(){
+        console.log('🚀【count-shouldComponentUpdate】');
+        // 默认为return true 代表要更新
+        return true
+      }
+
+      // 组件将要更新
+      componentWillUpdate(){
+        console.log('🚀【count-componentWillUpdate】');
+      }
+
+      // 组件即将被卸载
+      componentWillUnmount(){
+        console.log('🚀【count-componentWillUnmount】');
+      }
+
+      // 组件更新完毕
+      componentDidUpdate(){
+        console.log('🚀【count-componentDidUpdate】');
+      }
+
+      // render调用的时机：初始化渲染、状态更新之后
+      render(){
+        console.log('🚀【count-render】');
+        const {count} = this.state
+        return(
+          <div>
+            <h2>当前求和为：{count}</h2>
+            <CountChild childName={this.state.childName}/>
+            <button onClick={this.add}>点我+1</button>
+            <button onClick={this.death}>卸载组件</button>
+            <button onClick={this.force}>不更改任何状态中的数据，强制更新</button>
+            <button onClick={this.updateChild}>更改子组件数据</button>
+          </div>
+        )
+      }
+    }
+    class CountChild extends React.Component{
+
+      //子组件钩子函数
+      // 组件将要接收参数，父组件第一次render不执行
+      componentWillReceiveProps(){
+        console.log('🚀【count-componentWillReceiveProps】');
+      }
+
+      render(){
+        console.log('🚀【CountChild-render】');
+        return(
+          <div>
+            <h2>我是子组件：{this.props.childName}</h2>
+          </div>
+        )
+      }
+    }
+    //渲染组件
+    ReactDOM.render(<Count />,document.getElementById("test"))
+   </script>
+ 
+</body>
+</html>

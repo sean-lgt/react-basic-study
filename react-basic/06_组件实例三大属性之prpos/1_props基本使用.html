@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>组件实例三大属性之props 基本使用</title>
+  <style>
+   
+  </style>
+</head>
+<body>
+  <!-- 准备好一个容器 -->
+  <div id="test"></div>
+  <div id="test1"></div>
+  <!-- 引入react核心库 -->
+  <script type="text/javascript" src="../js/react.development.js"></script>
+  <!-- 引入react扩展库 用于支持react操作DOM -->
+  <script type="text/javascript" src="../js/react-dom.development.js"></script>
+  <!-- 引入babel 用于将ES5转为ES6 jsx转为js -->
+  <script type="text/javascript" src="../js/babel.min.js"></script>
+
+  <!-- 此处一定要写babel 因为要写的是 jsx -->
+  <script type="text/babel">
+    // 1、创建类式组件
+    class Person extends React.Component{
+     
+      render(){
+        return (
+          <ul>
+            <li>姓名：{this.props.name}</li>
+            <li>性别：{this.props.sex}</li>
+            <li>年龄：{this.props.age}</li>
+          </ul>
+        )
+      }
+    }
+  
+    // 2、渲染虚拟DOM到页面
+    ReactDOM.render(<Person name="tom" age="18" sex="女"/>,document.getElementById('test'))
+    const pObj = {
+      name:'haha',
+      age:'25',
+      sex:'女'
+    }
+    // 批量传递 props 使用扩展运算符
+    ReactDOM.render(<Person {...pObj}/>,document.getElementById('test1'))
+  </script>
+
+
+</body>
+</html>

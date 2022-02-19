@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>getSnapshotBeforeUpdate使用场景</title>
+  <style>
+    .list {
+      width: 200px;
+      height: 150px;
+      background: skyblue;
+      overflow: auto;
+    }
+
+    .news {
+      height: 30px;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- 准备好一个容器 -->
+  <div id="test"></div>
+  <!-- 引入react核心库 -->
+  <script type="text/javascript" src="../js/17.0.1/react.development.js"></script>
+  <!-- 引入react扩展库 用于支持react操作DOM -->
+  <script type="text/javascript" src="../js/17.0.1/react-dom.development.js"></script>
+  <!-- 引入babel 用于将ES5转为ES6 jsx转为js -->
+  <script type="text/javascript" src="../js/17.0.1/babel.min.js"></script>
+  <!-- 引入 prop-types 用于对组件标签属性进行限制 -->
+  <script type="text/javascript" src="../js/17.0.1/prop-types.js"></script>
+
+  <script type="text/babel">
+    //创建组件
+    class NewsList extends React.Component{
+      // 构造器
+      // constructor(props){
+      //   console.log('🚀【NewsList-constructor】');
+      //   super(props)
+      // }
+
+      state = {
+        newsArr:[]
+      }
+
+      // 在更新前获取快照
+      // 在最近一次渲染输出之前调用，能够让组件在发生更改之前从DOM中获取一些信息，会传递给 componentDidUpdate
+      // 有两个参数，prevProps 为之前的props,prevState为之前的state
+      getSnapshotBeforeUpdate(){
+        return this.refs.list.scrollHeight
+      }
+
+      // 组件已经挂载在页面上
+      componentDidMount(){
+        const that = this
+        setInterval(()=>{
+          //获取原状态
+          let { newsArr } = this.state
+          //模拟一条新闻
+          const news = `新闻${newsArr.length+1}`
+          this.setState({
+            newsArr:[news,...newsArr]
+          })
+        },1000)
+      }
+
+      // 组件更新完毕
+      // 参数为 之前的props，之前的state ,getSnapshotBeforeUpdate 传递的快照值
+      componentDidUpdate(preProps,preState,snapshotValue){
+        this.refs.list.scrollTop += this.refs.list.scrollHeight - snapshotValue
+      }
+
+      
+      // 组件即将被卸载
+      componentWillUnmount(){
+      
+      }
+
+      // render调用的时机：初始化渲染、状态更新之后
+      render(){
+        return(
+          <div className="list" ref="list">
+            {
+              this.state.newsArr.map((item,index)=>{
+                return <div className="news"key={index}>{item}</div>
+              })
+            }
+          </div>
+        )
+      }
+    }
+
+    //渲染组件
+    ReactDOM.render(<NewsList/>,document.getElementById("test"))
+   </script>
+
+</body>
+
+</html>

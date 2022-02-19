@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>React 组件实例三大属性之state</title>
+  <style>
+   
+  </style>
+</head>
+<body>
+  <!-- 准备好一个容器 -->
+  <div id="test"></div>
+  <!-- 引入react核心库 -->
+  <script type="text/javascript" src="../js/react.development.js"></script>
+  <!-- 引入react扩展库 用于支持react操作DOM -->
+  <script type="text/javascript" src="../js/react-dom.development.js"></script>
+  <!-- 引入babel 用于将ES5转为ES6 jsx转为js -->
+  <script type="text/javascript" src="../js/babel.min.js"></script>
+
+  <!-- 此处一定要写babel 因为要写的是 jsx -->
+  <script type="text/babel">
+    // 1、创建类式组件
+    class Weater extends React.Component{
+      // 构造器调用几次？——1次
+      constructor(props){
+        super(props)
+        this.state = {
+          isHot:false
+        }
+        // 解决事件绑定中的this 方法1：改变this的指向
+        this.changeWeater = this.changeWeater.bind(this)
+      }
+      changeWeater(){
+        //changeWeater 是放在 Weater 原型对象上，供实例使用
+        //由于 changeWeater 是作为 onClick 的回调，所以不是通过实例调用的，是直接调用
+        //类中的方法默认开启了局部的严格模式，所以此时 this 的指向为undefined
+        console.log(this)
+        //获取 isHot 的值 
+
+        // 注意 状态不可直接更改，需要借助内置API this,setState  更新时一种合并
+        // const isHot = !this.state.isHot
+        this.setState({
+          isHot : !this.state.isHot
+        })
+        //
+      }
+      // render 调用 n+1 次，改变state会重新触发
+      render(){
+        return <h1 onClick={this.changeWeater}>今天天气很{this.state.isHot ? '炎热':'凉爽'}</h1>
+      }
+    }
+  
+    // 2、渲染虚拟DOM到页面
+    ReactDOM.render(<Weater/>,document.getElementById('test'))
+  
+  </script>
+
+
+</body>
+</html>
