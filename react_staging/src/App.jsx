@@ -1,39 +1,25 @@
-import React from 'react'
-import {NavLink,useRoutes} from "react-router-dom"
-// 引进路由表
-import routes from './routes'
-import "./App.css"
-export default function App() {
-
-  // 路由表  根据路由表生成对应的路由规则
-  const elementRoutes = useRoutes(routes)
-
-
-  return (
-    <div>
-      <div className="row">
-        <div className="col-xs-offset-2 col-xs-8">
-          <div className="page-header"><h2>React Router Demo</h2></div>
-        </div>
+import React, { Component } from 'react'
+import { Button,DatePicker } from 'antd';
+import "antd/dist/antd.css"
+// 引入图标库
+import { WechatOutlined,SearchOutlined } from '@ant-design/icons';
+export default class App extends Component {
+  onChange = (event)=>{
+    console.log("aa",event)
+  }
+  render() {
+    return (
+      <div>
+      App
+         <Button type="primary">antd按钮1</Button>
+         <Button>antd按钮2</Button>
+         <Button type="link">antd按钮3</Button>
+         <WechatOutlined />
+         <Button type="primary" icon={<SearchOutlined />}>
+              Search
+         </Button>
+         <DatePicker onChange={this.onChange} />
       </div>
-      <div className="row">
-        <div className="col-xs-2 col-xs-offset-2">
-        <div className="list-group">
-          {/* 路由链接 */}
-
-          <NavLink className={({isActive})=>isActive?'list-group-item my-active':'list-group-item'}  to="/about">About</NavLink>
-          <NavLink className={({isActive})=>isActive?'list-group-item my-active':'list-group-item'} to="/home">Home</NavLink>
-        </div>
-      </div>
-      <div className="col-xs-6">
-        <div className="panel">
-          <div className="panel-body">
-            {/* 注冊組件  useRoutes 注册路由表*/}
-            {elementRoutes}
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  )
+    )
+  }
 }
