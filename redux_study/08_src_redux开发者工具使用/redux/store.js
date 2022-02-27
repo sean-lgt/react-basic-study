@@ -5,8 +5,18 @@ import thunk from "redux-thunk"
 // 引入开发工具扩展
 import {composeWithDevTools} from "redux-devtools-extension"
 
-// 引入所有的reducer
-import allReducer from "./reducers"
+// 引入为Count组件服务的 reducer
+import countReducer from "./reducers/count"
+// 引入为person组件服务的 reducer
+import personReducer from "./reducers/person"
+
+// 合并所有reducer
+// 汇总所有reducer 合并成一个 总的reducer 
+const allReducer = combineReducers({
+  he:countReducer,
+  rens:personReducer
+})
+
 
 const store = createStore(allReducer,composeWithDevTools(applyMiddleware(thunk)))
 // 暴露store

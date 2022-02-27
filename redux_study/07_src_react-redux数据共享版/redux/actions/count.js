@@ -1,7 +1,7 @@
 // 为 count 组件生成 action 对象
 
 // 引入常量，定义action中的type
-import {INCREMENT,DECREMENT} from "./constant"
+import {INCREMENT,DECREMENT} from "../constant"
 
 // 同步action，指的是 action 返回的是对象
 export const createIncrementAction = data => ({ type:INCREMENT,data})

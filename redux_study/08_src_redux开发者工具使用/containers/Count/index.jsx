@@ -35,7 +35,7 @@ class Count extends Component {
     return (
       <div>
         <h2>Count组件</h2>
-        <h3>当前求和为：{this.props.count},下方组件总人数为：{this.props.personCount}</h3>
+        <h3>当前求和为：{this.props.count},下方组件总人数为：{this.props.renshu}</h3>
         <select ref={c=>this.selectNumber = c}>
           <option value="1">1</option>
           <option value="2">2</option>
@@ -54,8 +54,8 @@ class Count extends Component {
 // 创建一个Count的容器组件
 const CountContainer = connect(
   state=>({
-  count:state.count,
-  personCount:state.persons.length
+  count:state.he,
+  renshu:state.rens.length
 }),{
    // mapDispatchToProps 简写方式，让 react-redux 自动分发，省去dispatch
    // mapDispatchToProps 两种写法，一种是常规的函数，一种是对象形式，让 react-redux 自动分发
